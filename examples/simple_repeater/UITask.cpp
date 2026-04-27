@@ -100,9 +100,16 @@ void UITask::renderCurrScreen() {
     _display->setColor(DisplayDriver::DARK);
     _display->drawTextCentered(W / 2, 2, "STATUS");
 
+    // Battery: clamp to 0-100%
+#ifndef BATT_MIN_MILLIVOLTS
+  #define BATT_MIN_MILLIVOLTS 3000
+#endif
+#ifndef BATT_MAX_MILLIVOLTS
+  #define BATT_MAX_MILLIVOLTS 4200
+#endif
     int pct = 0;
-    if (_status_batt_mv >= 4200) pct = 100;
-    else if (_status_batt_mv > 3000) pct = (_status_batt_mv - 3000) * 100 / 1200;
+    if (_status_batt_mv >= BATT_MAX_MILLIVOLTS) pct = 100;
+    else if (_status_batt_mv > BATT_MIN_MILLIVOLTS) pct = (_status_batt_mv - BATT_MIN_MILLIVOLTS) * 100 / (BATT_MAX_MILLIVOLTS - BATT_MIN_MILLIVOLTS);
 
     // uptime row
     _display->setColor(DisplayDriver::LIGHT);

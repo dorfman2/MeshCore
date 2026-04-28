@@ -182,11 +182,10 @@ void UITask::renderCurrScreen() {
     _display->setCursor(4, 30);
     _display->print("SF");
     sprintf(tmp, "%d", _node_prefs->sf);
-    _display->drawTextRightAlign(W / 2 - 4, 30, tmp);
+    _display->setCursor(4 + _display->getTextWidth("SF "), 30);
+    _display->print(tmp);
 
-    _display->setCursor(W / 2 + 4, 30);
-    _display->print("CR");
-    sprintf(tmp, "%d", _node_prefs->cr);
+    sprintf(tmp, "CR %d", _node_prefs->cr);
     _display->drawTextRightAlign(W - 4, 30, tmp);
 
     drawHRule(_display, 4, 40, W - 8);
